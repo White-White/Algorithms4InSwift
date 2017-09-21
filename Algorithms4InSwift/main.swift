@@ -10,3 +10,15 @@ import Foundation
 
 print("Hello, World!")
 
+let numbers = TestCase.createRandomNumbers()
+
+print(numbers.isSorted(isAscending: true))
+
+let sortResult = selectionSort(numbers)
+
+if sortResult.isSorted(isAscending: true) {
+    print(1)
+} else {
+    fatalError()
+}
+

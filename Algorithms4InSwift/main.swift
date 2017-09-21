@@ -14,9 +14,15 @@ let numbers = TestCase.createRandomNumbers()
 
 print(numbers.isSorted(isAscending: true))
 
-let sortResult = selectionSort(numbers)
+let time0 = CFAbsoluteTimeGetCurrent()
+let sortResult = insertionSort_slow(numbers)
+print("插入排序慢速，用时\(CFAbsoluteTimeGetCurrent() - time0)")
 
-if sortResult.isSorted(isAscending: true) {
+let time1 = CFAbsoluteTimeGetCurrent()
+let sortResult1 = insertionSort(numbers)
+print("插入排序，用时\(CFAbsoluteTimeGetCurrent() - time1)")
+
+if sortResult.isSorted(isAscending: true) && sortResult1.isSorted(isAscending: true) {
     print(1)
 } else {
     fatalError()

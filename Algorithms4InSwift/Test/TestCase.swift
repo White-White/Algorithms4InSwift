@@ -10,7 +10,7 @@ import Foundation
 
 class TestCase {
 
-    static func createRandomNumbers(_ numberOfNumbers: Int = Int(arc4random()%1000 + 1000)) -> [Int] {
+    static func createRandomNumbers(_ numberOfNumbers: Int = Int(arc4random()%10000 + 10000)) -> [Int] {
         
         var array: [Int] = [Int].init(repeating: 0, count: numberOfNumbers)
         
@@ -21,5 +21,5 @@ class TestCase {
         return array
     }
 
-
+    
 }

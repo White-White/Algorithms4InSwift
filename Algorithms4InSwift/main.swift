@@ -22,9 +22,14 @@ let time1 = CFAbsoluteTimeGetCurrent()
 let sortResult1 = insertionSort(numbers)
 print("插入排序，用时\(CFAbsoluteTimeGetCurrent() - time1)")
 
-if sortResult.isSorted(isAscending: true) && sortResult1.isSorted(isAscending: true) {
-    print(1)
-} else {
-    fatalError()
-}
+let time2 = CFAbsoluteTimeGetCurrent()
+let sortResult2 = selectionSort(numbers)
+print("选择排序，用时\(CFAbsoluteTimeGetCurrent() - time2)")
+
+let time3 = CFAbsoluteTimeGetCurrent()
+let sortResult3 = shellSort(numbers)
+print("希尔排序，用时\(CFAbsoluteTimeGetCurrent() - time3)")
+
+guard sortResult3.isSorted(isAscending: true) else { fatalError() }
+
 

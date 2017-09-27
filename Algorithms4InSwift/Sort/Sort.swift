@@ -102,7 +102,7 @@ func insertionSort<T: Comparable>(_ a: [T]) -> [T] {
 /*
  * 希尔排序使数组中，任意间隔h的元素都是有序的。随着h递减，直至1（对于任意以1结尾的h序列），都可以将数组排序
  * 下面算法采用1/2(3^k - 1)序列，从N/3开始递减至1
- *
+ * 最坏情况下比较次数和N^(3/2)成正比
  */
 
 struct DecendingNumberIterator: IteratorProtocol {
@@ -143,7 +143,7 @@ struct DecendingNumberSequence: Sequence {
 
 func shellSort<T: Comparable>(_ a: [T]) -> [T] {
     var array = a
-    let N = a.count
+    let N = array.count
     
     var gap = 1 //步长
     while gap < N/3 { gap = gap * 3 + 1 }
@@ -185,8 +185,76 @@ func shellSort<T: Comparable>(_ a: [T]) -> [T] {
     return array
 }
 
+//MARK: - Merge Sort 归并排序
 
+/*
+ * 归并排序保证任意长度为N的数组排序所需时间和NlogN成正比
+ * 但它所需要的额外空间也和N成长比
+ */
 
+func mergeSort_topDown<T: Comparable>(_ a: [T]) -> [T] { //MARK: 自顶向下的归并排序(带三种优化方式)
+    var array = a
+    let N = array.count
+    var aux = array
+
+    func merge(lo: Int, mid: Int, hi: Int) {
+        var i = lo
+        var j = mid + 1
+        
+        for index in lo...hi {
+            aux[index] = array[index]
+        }
+        
+        for k in lo...hi {
+            if (i > mid) {
+                array[k] = aux[j]; j += 1
+            } else if (j > hi) {
+                array[k] = aux[i]; i += 1
+            } else if aux[j] < aux[i] {
+                array[k] = aux[j]; j += 1
+            } else {
+                array[k] = aux[i]; i += 1
+            }
+        }
+    }
+    
+    func sort(lo: Int, hi: Int) {
+        if hi <= lo { return }
+        let mid = lo + (hi - lo)/2
+        sort(lo: lo, hi: mid)
+        sort(lo: mid + 1, hi: hi)
+        
+        /*
+         * 优化方式1：对小的（长度小于15）子数组使用选择排序，而不是继续归并
+         */
+        
+        /*
+         * 优化方式2：如果两个子数组已天然排序，则不用再归并。
+         * 这是对数组中包含若干有序子数组的优化
+         * if array[mid] < array[mid + 1] { return }
+         */
+        
+        merge(lo: lo, mid: mid, hi: hi)
+    }
+    
+    sort(lo: 0, hi: N - 1)
+    
+    return array
+}
+
+/*
+ * 优化方式3：通过递归时翻转array和aux数组间元素的传递方向，解决数据复制的时间
+ */
+
+func mergeSort_topDown_improved<T: Comparable>(_ a: [T]) -> [T] {
+    var array = a
+    let N = array.count
+    var aux = array
+    
+    //TODO:
+    
+    return array
+}
 
 
 

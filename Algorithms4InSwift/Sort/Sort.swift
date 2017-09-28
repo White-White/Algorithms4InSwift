@@ -10,13 +10,12 @@ extension Array {
 }
 
 extension Array where Element: Comparable {
-    func isSorted(isAscending: Bool) -> Bool {
+    func isSorted(isAscending: Bool) {
         for index in 1..<self.count {
             if self[index] < self[index - 1] {
-                return false
+                fatalError()
             }
         }
-        return true
     }
 }
 
@@ -197,47 +196,47 @@ func mergeSort_topDown<T: Comparable>(_ a: [T]) -> [T] { //MARK: 自顶向下的
     let N = array.count
     var aux = array
 
-    func merge(lo: Int, mid: Int, hi: Int) {
+    func merge(targetArray: UnsafeMutablePointer<[T]>, lo: Int, mid: Int, hi: Int) {
         var i = lo
         var j = mid + 1
         
         for index in lo...hi {
-            aux[index] = array[index]
+            aux[index] = targetArray.pointee[index]
         }
         
         for k in lo...hi {
             if (i > mid) {
-                array[k] = aux[j]; j += 1
+                targetArray.pointee[k] = aux[j]; j += 1
             } else if (j > hi) {
-                array[k] = aux[i]; i += 1
+                targetArray.pointee[k] = aux[i]; i += 1
             } else if aux[j] < aux[i] {
-                array[k] = aux[j]; j += 1
+                targetArray.pointee[k] = aux[j]; j += 1
             } else {
-                array[k] = aux[i]; i += 1
+                targetArray.pointee[k] = aux[i]; i += 1
             }
         }
     }
     
-    func sort(lo: Int, hi: Int) {
+    func sort(targetArray: UnsafeMutablePointer<[T]>, lo: Int, hi: Int) {
         if hi <= lo { return }
         let mid = lo + (hi - lo)/2
-        sort(lo: lo, hi: mid)
-        sort(lo: mid + 1, hi: hi)
+        sort(targetArray: targetArray, lo: lo, hi: mid)
+        sort(targetArray: targetArray, lo: mid + 1, hi: hi)
         
         /*
          * 优化方式1：对小的（长度小于15）子数组使用选择排序，而不是继续归并
          */
-        
+    
         /*
          * 优化方式2：如果两个子数组已天然排序，则不用再归并。
          * 这是对数组中包含若干有序子数组的优化
-         * if array[mid] < array[mid + 1] { return }
+         * if targetArray.pointee[mid] < targetArray.pointee[mid + 1] { return }
          */
         
-        merge(lo: lo, mid: mid, hi: hi)
+        merge(targetArray: targetArray, lo: lo, mid: mid, hi: hi)
     }
     
-    sort(lo: 0, hi: N - 1)
+    sort(targetArray: &array, lo: 0, hi: N - 1)
     
     return array
 }
@@ -251,7 +250,36 @@ func mergeSort_topDown_improved<T: Comparable>(_ a: [T]) -> [T] {
     let N = array.count
     var aux = array
     
-    //TODO:
+    func merge(originArray: UnsafeMutablePointer<[T]>, auxArray: UnsafeMutablePointer<[T]>, lo: Int, mid: Int, hi: Int) {
+        var i = lo
+        var j = mid + 1
+        
+        for k in lo...hi {
+            if (i > mid) {
+                originArray.pointee[k] = auxArray.pointee[j]; j += 1
+            } else if (j > hi) {
+                originArray.pointee[k] = auxArray.pointee[i]; i += 1
+            } else if auxArray.pointee[j] < auxArray.pointee[i] {
+                originArray.pointee[k] = auxArray.pointee[j]; j += 1
+            } else {
+                originArray.pointee[k] = auxArray.pointee[i]; i += 1
+            }
+        }
+    }
+    
+    func sort(originArray: UnsafeMutablePointer<[T]>, auxArray: UnsafeMutablePointer<[T]>, lo: Int, hi: Int) {
+        if hi <= lo { return }
+        let mid = lo + (hi - lo)/2
+        
+        //交换originArray和auxArray以切换归并的方向，来减少数据被复制的次数
+        
+        sort(originArray: auxArray, auxArray: originArray, lo: lo, hi: mid)
+        sort(originArray: auxArray, auxArray: originArray, lo: mid + 1, hi: hi)
+        
+        merge(originArray: originArray, auxArray: auxArray, lo: lo, mid: mid, hi: hi)
+    }
+    
+    sort(originArray: &array, auxArray: &aux, lo: 0, hi: N - 1)
     
     return array
 }

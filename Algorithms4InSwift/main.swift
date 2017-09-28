@@ -12,8 +12,6 @@ print("Hello, World!")
 
 let numbers = TestCase.createRandomNumbers()
 
-print(numbers.isSorted(isAscending: true))
-
 //let time0 = CFAbsoluteTimeGetCurrent()
 //let sortResult = insertionSort_slow(numbers)
 //print("插入排序慢速，用时\(CFAbsoluteTimeGetCurrent() - time0)")
@@ -31,9 +29,13 @@ print(numbers.isSorted(isAscending: true))
 //print("希尔排序，用时\(CFAbsoluteTimeGetCurrent() - time3)")
 
 let time4 = CFAbsoluteTimeGetCurrent()
-var sortResult4 = mergeSort_topDown_improved(numbers)
+var sortResult4 = mergeSort_topDown(numbers)
 print("归并排序，用时\(CFAbsoluteTimeGetCurrent() - time4)")
 
-guard sortResult4.isSorted(isAscending: true) else { fatalError() }
+let time5 = CFAbsoluteTimeGetCurrent()
+var sortResult5 = mergeSort_topDown_improved(numbers)
+print("归并排序，用时\(CFAbsoluteTimeGetCurrent() - time5)")
+
+sortResult5.isSorted(isAscending: true)
 
 

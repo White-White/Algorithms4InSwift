@@ -284,6 +284,49 @@ func mergeSort_topDown_improved<T: Comparable>(_ a: [T]) -> [T] {
     return array
 }
 
+func mergeSort_bottomUp<T: Comparable>(_ a: [T]) -> [T] {
+    var array = a
+    let N = array.count
+    var aux = array
+    
+    func merge(lo: Int, mid: Int, hi: Int) {
+        //该方法与mergeSort_topDown里的一致
+        var i = lo
+        var j = mid + 1
+        
+        for index in lo...hi {
+            aux[index] = array[index]
+        }
+        
+        for k in lo...hi {
+            if (i > mid) {
+                array[k] = aux[j]; j += 1
+            } else if (j > hi) {
+                array[k] = aux[i]; i += 1
+            } else if aux[j] < aux[i] {
+                array[k] = aux[j]; j += 1
+            } else {
+                array[k] = aux[i]; i += 1
+            }
+        }
+    }
+    
+    var sz = 1
+    while sz < N {
+        var lo = 0
+        while lo < N - sz {
+            //这里的sz是步长。从0开始，每sz个元素算一组，每次归并2个sz长度，即2组的元素。
+            //则下一次要归并的首元素索引为lo + 2 * sz，因此lo + (2 * sz) - 1就是上一次归并的最高元素（hi）
+            //因此上一次归并的mid值为 lo + (hi - lo)/2, 即 lo + (lo + (2 * sz) - 1 - lo)/2，等于 lo + （2*sz - 1）/2。实际等于lo + sz - 1
+            merge(lo: lo, mid: lo + sz - 1, hi: min(lo + (2 * sz) - 1, N - 1))
+            lo += 2 * sz
+        }
+        sz *= 2
+    }
+    
+    return array
+}
+
 
 
 

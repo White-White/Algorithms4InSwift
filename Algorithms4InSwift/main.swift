@@ -36,6 +36,10 @@ let time5 = CFAbsoluteTimeGetCurrent()
 var sortResult5 = mergeSort_topDown_improved(numbers)
 print("归并排序，用时\(CFAbsoluteTimeGetCurrent() - time5)")
 
-sortResult5.isSorted(isAscending: true)
+let time6 = CFAbsoluteTimeGetCurrent()
+var sortResult6 = mergeSort_bottomUp(numbers)
+print("归并排序，用时\(CFAbsoluteTimeGetCurrent() - time6)")
+
+sortResult6.isSorted(isAscending: true)
 
 

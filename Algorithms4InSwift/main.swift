@@ -28,18 +28,23 @@ let numbers = TestCase.createRandomNumbers()
 //let sortResult3 = shellSort(numbers)
 //print("希尔排序，用时\(CFAbsoluteTimeGetCurrent() - time3)")
 
-let time4 = CFAbsoluteTimeGetCurrent()
-var sortResult4 = mergeSort_topDown(numbers)
-print("归并排序，用时\(CFAbsoluteTimeGetCurrent() - time4)")
-
-let time5 = CFAbsoluteTimeGetCurrent()
-var sortResult5 = mergeSort_topDown_improved(numbers)
-print("归并排序，用时\(CFAbsoluteTimeGetCurrent() - time5)")
-
+//let time4 = CFAbsoluteTimeGetCurrent()
+//var sortResult4 = mergeSort_topDown(numbers)
+//print("归并排序，用时\(CFAbsoluteTimeGetCurrent() - time4)")
+//
+//let time5 = CFAbsoluteTimeGetCurrent()
+//var sortResult5 = mergeSort_topDown_improved(numbers)
+//print("归并排序，用时\(CFAbsoluteTimeGetCurrent() - time5)")
+//
 let time6 = CFAbsoluteTimeGetCurrent()
 var sortResult6 = mergeSort_bottomUp(numbers)
 print("归并排序，用时\(CFAbsoluteTimeGetCurrent() - time6)")
 
-sortResult6.isSorted(isAscending: true)
+let time7 = CFAbsoluteTimeGetCurrent()
+var sortResult7 = quickSort(numbers)
+print("快速排序，用时\(CFAbsoluteTimeGetCurrent() - time7)")
+
+
+sortResult7.isSorted(isAscending: true)
 
 

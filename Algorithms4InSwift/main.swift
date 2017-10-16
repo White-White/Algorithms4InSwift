@@ -10,7 +10,8 @@ import Foundation
 
 print("Hello, World!")
 
-let numbers = TestCase.createRandomNumbers()
+//let numbers = TestCase.createRandomNumbers()
+let numbers = TestCase.createRandomNumbers_repeating()
 
 //let time0 = CFAbsoluteTimeGetCurrent()
 //let sortResult = insertionSort_slow(numbers)
@@ -40,9 +41,13 @@ let time6 = CFAbsoluteTimeGetCurrent()
 var sortResult6 = mergeSort_bottomUp(numbers)
 print("归并排序，用时\(CFAbsoluteTimeGetCurrent() - time6)")
 
+let time8 = CFAbsoluteTimeGetCurrent()
+var sortResult8 = quickSort(numbers)
+print("快速排序，用时\(CFAbsoluteTimeGetCurrent() - time8)")
+
 let time7 = CFAbsoluteTimeGetCurrent()
-var sortResult7 = quickSort(numbers)
-print("快速排序，用时\(CFAbsoluteTimeGetCurrent() - time7)")
+var sortResult7 = quickSort_3way(numbers)
+print("快速排序3，用时\(CFAbsoluteTimeGetCurrent() - time7)")
 
 
 sortResult7.isSorted(isAscending: true)

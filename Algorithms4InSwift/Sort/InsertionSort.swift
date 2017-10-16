@@ -26,22 +26,22 @@ func insertionSort_slow<T: Comparable>(_ a: [T]) -> [T] {
 func insertionSort<T: Comparable>(_ a: [T]) -> [T] {
     var array = a
     let N = array.count
-    for indexElement in 1 ..< N {
-        var indexFinal = indexElement
-        for indexPreviousElement in (0..<indexElement).reversed() {
-            if array[indexElement] < array[indexPreviousElement] {
-                indexFinal = indexPreviousElement
+    for indexElementNext in 1 ..< N {
+        var targetIndexOfElementNext = indexElementNext
+        for indexPreviousElement in (0..<indexElementNext).reversed() {
+            if array[indexElementNext] < array[indexPreviousElement] {
+                targetIndexOfElementNext = indexPreviousElement
             } else {
                 break
             }
         }
         
-        if indexElement != indexFinal {
-            let tmpElement = array[indexElement]
-            for eleIndexToMove in (indexFinal..<indexElement).reversed() {
+        if indexElementNext != targetIndexOfElementNext {
+            let tmpElement = array[indexElementNext]
+            for eleIndexToMove in (targetIndexOfElementNext..<indexElementNext).reversed() {
                 array[eleIndexToMove + 1] = array[eleIndexToMove]
             }
-            array[indexFinal] = tmpElement
+            array[targetIndexOfElementNext] = tmpElement
         }
     }
     return array
